@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABC FINPAY API Documentation</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --surface:#ffffff;
+      --surface-2:#f8fbff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#d8e1ee;
+      --brand:#1d4ed8;
+      --brand-2:#0ea5e9;
+      --nav:#0b1220;
+      --code:#0b1220;
+      --success:#ecfdf3;
+      --success-line:#bbf7d0;
+      --note:#eff6ff;
+      --note-line:#bfdbfe;
+      --warn:#fff7ed;
+      --warn-line:#fed7aa;
+      --shadow:0 16px 40px rgba(15,23,42,.08);
+      --radius-xl:24px;
+      --radius-lg:18px;
+      --radius-md:14px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(14,165,233,.10), transparent 24%),
+        linear-gradient(180deg,#f8fbff 0%, #f4f7fb 100%);
+      color:var(--text);
+    }
+    .layout{
+      display:grid;
+      grid-template-columns:300px 1fr;
+      min-height:100vh;
+    }
+    aside{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:auto;
+      padding:22px 18px 28px;
+      background:linear-gradient(180deg,#0b1220 0%, #111b31 100%);
+      color:#e2e8f0;
+      border-right:1px solid rgba(255,255,255,.08);
+    }
+    .brand{
+      padding:10px 12px 18px;
+      margin-bottom:18px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .brand h1{
+      margin:0 0 8px;
+      font-size:21px;
+      letter-spacing:.2px;
+    }
+    .brand p{
+      margin:0;
+      color:#94a3b8;
+      font-size:13px;
+      line-height:1.6;
+    }
+    .nav-title{
+      padding:10px 12px 6px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#94a3b8;
+      font-weight:700;
+    }
+    nav a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#dbeafe;
+      text-decoration:none;
+      padding:10px 12px;
+      margin:4px 0;
+      border-radius:12px;
+      font-size:14px;
+      transition:.2s ease;
+    }
+    nav a:hover{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      transform:translateX(2px);
+    }
+    main{
+      max-width:1280px;
+      width:100%;
+      padding:28px;
+    }
+    .hero{
+      border-radius:28px;
+      padding:36px;
+      background:linear-gradient(135deg,#0f172a 0%, #1d4ed8 55%, #38bdf8 100%);
+      color:#fff;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:auto -80px -80px auto;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      filter:blur(4px);
+    }
+    .hero h2{
+      margin:0 0 12px;
+      font-size:38px;
+      line-height:1.12;
+      position:relative;
+      z-index:1;
+    }
+    .hero p{
+      margin:0;
+      max-width:900px;
+      color:#dbeafe;
+      line-height:1.8;
+      position:relative;
+      z-index:1;
+    }
+    .hero-badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+      position:relative;
+      z-index:1;
+    }
+    .badge{
+      background:rgba(255,255,255,.13);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:13px;
+    }
+    .card{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+      padding:24px;
+      margin:18px 0;
+    }
+    h2.section-title{
+      margin:0 0 12px;
+      font-size:30px;
+      line-height:1.2;
+    }
+    h3{
+      margin:26px 0 10px;
+      font-size:22px;
+      line-height:1.3;
+    }
+    h4{
+      margin:18px 0 10px;
+      font-size:16px;
+    }
+    p, li{line-height:1.8}
+    .muted{color:var(--muted)}
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+    .mini{
+      background:var(--surface-2);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
+    .mini h4{margin-top:0}
+    .endpoint{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin:8px 0 14px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#eff6ff;
+      color:var(--brand);
+      border:1px solid #bfdbfe;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:13px;
+      font-weight:600;
+    }
+    .callout{
+      padding:14px 16px;
+      border-radius:16px;
+      margin:14px 0;
+      border:1px solid;
+      line-height:1.7;
+    }
+    .note{background:var(--note); border-color:var(--note-line); color:#1e3a8a;}
+    .warn{background:var(--warn); border-color:var(--warn-line); color:#9a3412;}
+    .success{background:var(--success); border-color:var(--success-line); color:#166534;}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      background:#fff;
+      font-size:14px;
+      margin:12px 0 4px;
+    }
+    th, td{
+      text-align:left;
+      padding:13px 14px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+    }
+    th{
+      background:#f8fbff;
+      font-weight:700;
+      color:#0f172a;
+    }
+    tr:last-child td{border-bottom:none}
+    .code-wrap{
+      position:relative;
+      margin:12px 0;
+    }
+    .copy-btn{
+      position:absolute;
+      top:10px;
+      right:10px;
+      border:none;
+      border-radius:10px;
+      padding:7px 10px;
+      font-size:12px;
+      cursor:pointer;
+      background:#1e293b;
+      color:#e2e8f0;
+      transition:.2s ease;
+    }
+    .copy-btn:hover{background:#334155}
+    pre{
+      margin:0;
+      background:var(--code);
+      color:#e2e8f0;
+      border:1px solid #1e293b;
+      border-radius:18px;
+      padding:18px;
+      overflow:auto;
+      line-height:1.65;
+      font-size:13px;
+    }
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      padding:18px 0 30px;
+      font-size:13px;
+    }
+    @media (max-width:1024px){
+      .layout{grid-template-columns:1fr}
+      aside{position:relative;height:auto}
+      main{padding:18px}
+      .grid-2{grid-template-columns:1fr}
+      .hero{padding:26px}
+      .hero h2{font-size:30px}
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <h1>ABC FINPAY API</h1>
+        <p>Upgraded presentation only. All endpoint names, fields, signature rules, examples, and result codes remain based on your current documentation details.</p>
+      </div>
+
+      <div class="nav-title">Main Sections</div>
+      <nav>
+        <a href="#overview">Overview</a>
+        <a href="#authentication">Authentication</a>
+        <a href="#setdeposit">SetDeposit</a>
+        <a href="#setdepositv2">SetDepositV2</a>
+        <a href="#deposit-callback">Deposit Callback</a>
+        <a href="#setdepositv3">SetDepositV3</a>
+        <a href="#updatedeposit">UpdateDeposit</a>
+        <a href="#setwithdrawal">SetWithdrawal</a>
+        <a href="#withdrawal-callback">Withdrawal Callback</a>
+        <a href="#checkdeposit">CheckDeposit</a>
+        <a href="#checkwithdrawal">CheckWithdrawal</a>
+        <a href="#checkbalance">CheckBalance</a>
+        <a href="#signature-code">Signature Code</a>
+        <a href="#result-codes">Result Codes</a>
+        <a href="#examples">Examples</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <h2>ABC FINPAY API Documentation</h2>
+        <p>
+          This upgraded HTML version keeps your original API details and coding rules unchanged.
+          It improves the visual design, navigation, table formatting, spacing, and readability so the documentation looks more professional for merchants and developers.
+        </p>
+        <div class="hero-badges">
+          <span class="badge">POST</span>
+          <span class="badge">SHA-256 Signature</span>
+          <span class="badge">Deposit</span>
+          <span class="badge">Withdrawal</span>
+          <span class="badge">Callback Support</span>
+        </div>
+      </section>
+
+      <section id="overview" class="card">
+        <h2 class="section-title">Overview</h2>
+        <p class="muted">
+          ABC FINPAY provides deposit, withdrawal, balance checking, and status checking APIs.
+          Requests use SHA-256 signatures built from concatenated field values using your merchant key and merchant value.
+        </p>
+        <div class="grid-2">
+          <div class="mini">
+            <h4>Merchant Credentials</h4>
+            <p><code>Merchant Key</code> and <code>Merchant Value</code> are required for signature generation.</p>
+          </div>
+          <div class="mini">
+            <h4>Service Scope</h4>
+            <ul>
+              <li>Deposit transaction creation</li>
+              <li>Withdrawal transaction creation</li>
+              <li>Balance checking</li>
+              <li>Status checking</li>
+              <li>Callback update notifications</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="authentication" class="card">
+        <h2 class="section-title">Authentication &amp; Signature</h2>
+        <p class="muted">
+          All endpoints use a SHA-256 signature generated from concatenated values in the required order.
+          Do not add separators unless the documentation explicitly says so.
+        </p>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>Signature = SHA256(concatenated_string)</code></pre>
+        </div>
+        <div class="callout note">
+          Important: this HTML only upgrades the layout and presentation. Your endpoint logic, field names, signature formulas, and result codes are not changed.
+        </div>
+      </section>
+
+      <section id="setdeposit" class="card">
+        <h2 class="section-title">SetDeposit</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/SetDeposit</div>
+        <p>Create a deposit transaction through the deposit webservice.</p>
+
+        <h3>Request Parameters</h3>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>MemberCode</td><td>String</td><td>Yes</td><td>Member Code</td></tr>
+            <tr><td>TransactionID</td><td>String</td><td>Yes</td><td>Transaction ID</td></tr>
+            <tr><td>CustomerName</td><td>String</td><td>Yes</td><td>Customer Name</td></tr>
+            <tr><td>RefID</td><td>String</td><td>Yes</td><td>Reference ID / TID</td></tr>
+            <tr><td>Type</td><td>String</td><td>Yes</td><td>Wing / ABA / ACLEDA / KHQR</td></tr>
+            <tr><td>BankName</td><td>String</td><td>Conditional</td><td>Only when type is not Wing</td></tr>
+            <tr><td>BankCode</td><td>String</td><td>Conditional</td><td>Only when type is not Wing</td></tr>
+            <tr><td>Amount</td><td>number</td><td>Yes</td><td>Amount</td></tr>
+            <tr><td>Merchant</td><td>String</td><td>Yes</td><td>Merchant Key</td></tr>
+            <tr><td>Status</td><td>String</td><td>Yes</td><td>APPROVED / PENDING / REJECTED</td></tr>
+            <tr><td>Signature</td><td>String</td><td>Yes</td><td>SHA-256 hash string</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Response Parameters</h3>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>result</td><td>Int</td><td>Yes</td><td>Result code</td></tr>
+            <tr><td>msg</td><td>String</td><td>Yes</td><td>Result message</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Signature</h3>
+        <h4>Type = Wing</h4>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+RefID+Type+Amount+Status</code></pre>
+        </div>
+
+        <h4>Type ≠ Wing</h4>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+RefID+Type+BankName+BankCode+Amount+Status</code></pre>
+        </div>
+      </section>
+
+      <section id="setdepositv2" class="card">
+        <h2 class="section-title">SetDepositV2</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/SetDepositV2</div>
+        <p>Create a deposit transaction with <code>NotifUrl</code> callback support.</p>
+
+        <h3>Additional Request Parameter</h3>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>NotifUrl</td><td>String</td><td>No</td><td>URL for callback update status</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Signature</h3>
+        <h4>Type = Wing</h4>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+RefID+Type+Amount+Status+NotifUrl</code></pre>
+        </div>
+
+        <h4>Type ≠ Wing</h4>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+RefID+Type+BankName+BankCode+Amount+Status+NotifUrl</code></pre>
+        </div>
+      </section>
+
+      <section id="deposit-callback" class="card">
+        <h2 class="section-title">Deposit Callback Notification</h2>
+        <p>The API returns a form POST body with deposit result updates.</p>
+
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>MemberCode</td><td>String</td><td>Yes</td><td>Member Code</td></tr>
+            <tr><td>TransactionID</td><td>String</td><td>Yes</td><td>Transaction ID</td></tr>
+            <tr><td>CustomerName</td><td>String</td><td>Yes</td><td>Customer Name</td></tr>
+            <tr><td>TID</td><td>String</td><td>Yes</td><td>Reference ID / TID</td></tr>
+            <tr><td>Amount</td><td>String</td><td>Yes</td><td>Amount; values above 1000 may contain commas</td></tr>
+            <tr><td>Merchant</td><td>String</td><td>Yes</td><td>Merchant Key</td></tr>
+            <tr><td>Status</td><td>String</td><td>Yes</td><td>100 = APPROVED, 101 = PENDING, 102 = REJECTED</td></tr>
+            <tr><td>Signature</td><td>String</td><td>Yes</td><td>SHA-256 hash string</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+TID+Amount+Status</code></pre>
+        </div>
+      </section>
+
+      <section id="setdepositv3" class="card">
+        <h2 class="section-title">SetDepositV3</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/SetDepositV3</div>
+        <p>Create a deposit with a payment page response.</p>
+
+        <h3>Request Parameters</h3>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>MemberCode</td><td>String</td><td>Yes</td><td>Member Code</td></tr>
+            <tr><td>TransactionID</td><td>String</td><td>Yes</td><td>Transaction ID</td></tr>
+            <tr><td>CustomerName</td><td>String</td><td>Yes</td><td>Customer Name</td></tr>
+            <tr><td>Type</td><td>String</td><td>Yes</td><td>Wing / ABA / ACLEDA / KHQR</td></tr>
+            <tr><td>Amount</td><td>number</td><td>Yes</td><td>Amount</td></tr>
+            <tr><td>Merchant</td><td>String</td><td>Yes</td><td>Merchant Key</td></tr>
+            <tr><td>NotifUrl</td><td>String</td><td>No</td><td>Callback URL</td></tr>
+            <tr><td>ReturnUrl</td><td>String</td><td>No</td><td>Return URL when payment page closes</td></tr>
+            <tr><td>Signature</td><td>String</td><td>Yes</td><td>SHA-256 hash string</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Response Parameters</h3>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>result</td><td>Int</td><td>Yes</td><td>Result code</td></tr>
+            <tr><td>url</td><td>String</td><td>Yes</td><td>Payment URL</td></tr>
+            <tr><td>msg</td><td>String</td><td>Yes</td><td>Result Message</td></tr>
+            <tr><td>bankaccname</td><td>String</td><td>No</td><td>Bank account name</td></tr>
+            <tr><td>bankaccno</td><td>String</td><td>No</td><td>Bank account number</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+Type+Amount+NotifUrl+ReturnUrl</code></pre>
+        </div>
+      </section>
+
+      <section id="updatedeposit" class="card">
+        <h2 class="section-title">UpdateDeposit</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/UpdateDeposit</div>
+        <p>Update deposit reference ID.</p>
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+Type+RefID</code></pre>
+        </div>
+      </section>
+
+      <section id="setwithdrawal" class="card">
+        <h2 class="section-title">SetWithdrawal</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/SetWithdrawal</div>
+        <p>Create a withdrawal transaction.</p>
+
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>WithdrawalID</td><td>String</td><td>Yes</td><td>Withdrawal ID</td></tr>
+            <tr><td>FirstName</td><td>String</td><td>Yes</td><td>First Name</td></tr>
+            <tr><td>LastName</td><td>String</td><td>Yes</td><td>Last Name</td></tr>
+            <tr><td>Type</td><td>String</td><td>Yes</td><td>Wing / ABA / ACLEDA / KHQR</td></tr>
+            <tr><td>BankName</td><td>String</td><td>Conditional</td><td>Only when type is not Wing</td></tr>
+            <tr><td>BankAccNo</td><td>String</td><td>Conditional</td><td>Only when type is not Wing</td></tr>
+            <tr><td>WingAccount</td><td>String</td><td>Conditional</td><td>Only when type is Wing</td></tr>
+            <tr><td>Amount</td><td>number</td><td>Yes</td><td>Amount</td></tr>
+            <tr><td>Merchant</td><td>String</td><td>Yes</td><td>Merchant Key</td></tr>
+            <tr><td>NotifUrl</td><td>String</td><td>Yes</td><td>Callback URL</td></tr>
+            <tr><td>Signature</td><td>String</td><td>Yes</td><td>SHA-256 hash string</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Signature</h3>
+        <h4>Type = Wing</h4>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+WithdrawalID+FirstName+LastName+Type+WingAccount+Amount+NotifUrl</code></pre>
+        </div>
+
+        <h4>Type ≠ Wing</h4>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+WithdrawalID+FirstName+LastName+Type+BankName+BankAccNo+Amount+NotifUrl</code></pre>
+        </div>
+      </section>
+
+      <section id="withdrawal-callback" class="card">
+        <h2 class="section-title">Withdrawal Callback Notification</h2>
+        <p>Returns a form POST body with the following fields:</p>
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+WithdrawalID+FirstName+LastName+Amount+Status</code></pre>
+        </div>
+      </section>
+
+      <section id="checkdeposit" class="card">
+        <h2 class="section-title">CheckDeposit</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/CheckDeposit</div>
+        <p>Check deposit status.</p>
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+MemberCode+TransactionID+CustomerName+RefID+Amount</code></pre>
+        </div>
+      </section>
+
+      <section id="checkwithdrawal" class="card">
+        <h2 class="section-title">CheckWithdrawal</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/CheckWithdrawal</div>
+        <p>Check withdrawal status.</p>
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue+WithdrawalID+Amount</code></pre>
+        </div>
+      </section>
+
+      <section id="checkbalance" class="card">
+        <h2 class="section-title">CheckBalance</h2>
+        <div class="endpoint">POST https://callback.abcfinpay.com/API/CheckBalance</div>
+        <p>Check merchant balance.</p>
+
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Merchant</td><td>String</td><td>Yes</td><td>Merchant Key</td></tr>
+            <tr><td>Signature</td><td>String</td><td>Yes</td><td>SHA-256 hash string</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Signature</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>MerchantKey+MerchantValue</code></pre>
+        </div>
+      </section>
+
+      <section id="signature-code" class="card">
+        <h2 class="section-title">Signature Code Examples</h2>
+
+        <h3>C#</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>public static class SHA_256
+{
+    public static string GenerateSHA256String(string inputString)
+    {
+        SHA256 SHA256 = SHA256Managed.Create();
+        byte[] bytes = Encoding.UTF8.GetBytes(inputString);
+        byte[] hash = SHA256.ComputeHash(bytes);
+        return GetStringFromHash(hash);
+    }
+    private static string GetStringFromHash(byte[] hash)
+    {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i &lt; hash.Length; i++)
+        {
+            result.Append(hash[i].ToString("X2"));
+        }
+        return result.ToString().ToLower();
+    }
+}</code></pre>
+        </div>
+
+        <h3>PHP</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>&lt;?php
+function signature($source)
+{
+    return hash('sha256', $source);
+}
+?&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="result-codes" class="card">
+        <h2 class="section-title">Result Codes</h2>
+        <table>
+          <thead>
+            <tr><th>Code</th><th>Message</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>10</td><td>Success</td></tr>
+            <tr><td>11</td><td>Balance Not Enough</td></tr>
+            <tr><td>12</td><td>Already Exists</td></tr>
+            <tr><td>13</td><td>Not Found</td></tr>
+            <tr><td>100</td><td>Approved</td></tr>
+            <tr><td>101</td><td>Pending</td></tr>
+            <tr><td>102</td><td>Rejected</td></tr>
+            <tr><td>1000</td><td>Unknown Error</td></tr>
+            <tr><td>1001</td><td>Signature Not Match</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="examples" class="card">
+        <h2 class="section-title">Examples</h2>
+
+        <h3>SetDeposit</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>URL: https://callback.abcfinpay.com/API/SetDeposit
+Method: POST
+Header: content-type: application/x-www-form-urlencoded
+Body:
+MemberCode=M1000&TransactionID=DP0001&CustomerName=Steve Mohammad&RefID=EAC89999&Type=Wing&Amount=180.00&Merchant=STV004&Status=APPROVED&Signature=2e82ea6a5c8d78f8d209bfa988c29fe94865a123057bde8745f08e2185683ae0
+
+Result:
+{"result":100,"msg":"Approved"}</code></pre>
+        </div>
+
+        <h3>SetDepositV2</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>URL: https://callback.abcfinpay.com/API/SetDepositV2
+Method: POST
+Body includes NotifUrl and SHA-256 signature.
+
+Result:
+{"result":100,"msg":"Approved"}</code></pre>
+        </div>
+
+        <h3>CheckDeposit</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>URL: https://callback.abcfinpay.com/API/CheckDeposit
+Method: POST
+
+Result:
+{"result":100,"msg":"Approved"}</code></pre>
+        </div>
+
+        <h3>SetWithdrawal</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>URL: https://callback.abcfinpay.com/API/SetWithdrawal
+Method: POST
+
+Result:
+{"result":10,"msg":"Success"}</code></pre>
+        </div>
+
+        <h3>CheckBalance</h3>
+        <div class="code-wrap">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>URL: https://callback.abcfinpay.com/API/CheckBalance
+Method: POST
+
+Result:
+{"result":10, "balance":100, "msg":"Success"}</code></pre>
+        </div>
+      </section>
+
+      <div class="footer">ABC FINPAY API Documentation • Upgraded HTML layout • Original details preserved</div>
+    </main>
+  </div>
+
+  <script>
+    function copyCode(button){
+      const code = button.parentElement.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const old = button.innerText;
+        button.innerText = 'Copied';
+        setTimeout(() => button.innerText = old, 1200);
+      });
+    }
+  </script>
+</body>
+</html>
